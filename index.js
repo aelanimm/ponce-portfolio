@@ -18,6 +18,8 @@ const sections = [
 const tabs = document.querySelector('.tabs');
 const sidebar = document.querySelector('.sidebar');
 const pageSlider = document.querySelector('#page-slider');
+const coverScreen = document.querySelector('#cover-screen');
+const desktop = document.querySelector('.desktop');
 let activeSection = null;
 let transitionBusy = false;
 const pause = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
@@ -26,6 +28,7 @@ function applyCardHover(root){root.querySelectorAll(hoverCardSelector).forEach(c
 function applyButtonInvert(root){root.querySelectorAll('button:not(.tab):not(.folder), a.task-cta, a.open-link').forEach(button=>{button.classList.add('btn-invert');let color='white';if(button.matches('.task-cta,.send-message'))color='lime';else if(button.matches('.theme-button'))color='pink';else if(button.matches('.copy,.button:not(.secondary)'))color='yellow';button.classList.add(`btn-${color}`);});}
 tabs.innerHTML = sections.map(s => `<button class="tab" data-section="${s.id}">${s.label}</button>`).join('');
 sidebar.innerHTML = `<div class="profile" role="button" tabindex="0" aria-label="Click to open full resume" aria-haspopup="dialog"><div class="avatar-wrap"><img class="avatar" src="${profileImage}" alt="Ayla Isabel A. Ponce"><i class="beacon"></i></div><div><span class="hybrid">★ IT STUDENT</span><h2>Ayla Isabel A. Ponce</h2><p>4th year BS Information Technology student</p></div><div class="pills"><span class="pill">📍 San Jose del Monte, Bulacan</span><span class="pill">Open to internship</span></div><span class="profile-resume-hint">📄 &nbsp; View Full Resume <small>(Click)</small></span></div><div class="folders"><h3>WORKSPACE / DIRECTORY</h3><button class="folder folder-projects" data-section="projects"><span class="folder-label"><i class="folder-icon"></i>/Projects/Production</span><small>6</small></button><button class="folder folder-skills" data-section="skills"><span class="folder-label"><i class="folder-icon"></i>/Skills/Tech_Arsenal</span><small>16</small></button><button class="folder folder-experience" data-section="experience"><span class="folder-label"><i class="folder-icon"></i>/Career/Timeline.log</span><small>2021-now</small></button></div><div class="memo"><b>✎ DESK NOTE</b>“Build useful systems, make them clear, and keep learning.”</div>`;
+sidebar.querySelectorAll('.folder-projects small, .folder-skills small').forEach(badge=>badge.remove());
 applyButtonInvert(document);
 
 const resumeModal = document.querySelector('#resume-modal');
@@ -64,9 +67,27 @@ function renderSection(id){const page=document.createElement('div');preparePage(
 document.querySelectorAll('.task-cta[data-open]').forEach(el=>el.addEventListener('click',event=>{event.preventDefault();showSection(el.dataset.open)}));
 async function showSection(id,animate=true){if(!views[id]||id===activeSection||transitionBusy)return;if(!animate||!activeSection||window.matchMedia('(prefers-reduced-motion: reduce)').matches){renderSection(id);return}transitionBusy=true;pageSlider.classList.add('is-transitioning');const oldPage=pageSlider.querySelector('.section-page');const newPage=document.createElement('div');preparePage(newPage,id);const forward=sections.findIndex(section=>section.id===id)>sections.findIndex(section=>section.id===activeSection);oldPage.classList.add(forward?'flow-exit-left':'flow-exit-right');newPage.classList.add(forward?'flow-enter-right':'flow-enter-left');pageSlider.append(newPage);setActiveSection(id);activeSection=id;await pause(480);oldPage.remove();newPage.classList.remove('flow-enter-right','flow-enter-left');pageSlider.classList.remove('is-transitioning');transitionBusy=false;}
 function toast(message){const t=document.querySelector('#toast');t.textContent=message;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+function enterOS(section='about'){
+  document.body.classList.add('os-open');
+  coverScreen.setAttribute('aria-hidden','true');
+  showSection(section,false);
+}
+function returnToCover(){document.body.classList.remove('os-open');coverScreen.setAttribute('aria-hidden','false');}
+document.querySelector('#enter-os').addEventListener('click',()=>enterOS('about'));
+document.querySelector('[data-resume]').addEventListener('click',()=>{enterOS('about');openResume()});
+document.querySelector('.cover-close').addEventListener('click',event=>{
+  event.stopPropagation();
+  const card=document.querySelector('#cover-window');
+  card.classList.remove('window-rattle');
+  void card.offsetWidth;
+  card.classList.add('window-rattle');
+  card.addEventListener('animationend',()=>card.classList.remove('window-rattle'),{once:true});
+});
+document.querySelectorAll('.shortcut-control[data-open]').forEach(shortcut=>shortcut.addEventListener('click',()=>enterOS(shortcut.dataset.open)));
+document.querySelector('.home-control').addEventListener('click',returnToCover);
 document.addEventListener('click',e=>{const button=e.target.closest('[data-section]');if(button)showSection(button.dataset.section)});
 function clock(){document.querySelector('#clock').textContent=new Intl.DateTimeFormat('en-PH',{timeZone:'Asia/Manila',hour:'2-digit',minute:'2-digit',second:'2-digit'}).format(new Date())}
-clock();setInterval(clock,1000);showSection(location.hash.slice(1)||'about',false);
+clock();setInterval(clock,1000);
 
 const themeButton=document.querySelector('#theme-button');
 const themeMenu=document.querySelector('#theme-menu');
