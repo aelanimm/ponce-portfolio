@@ -3,9 +3,9 @@ import profileImage from './assets/images/profile.jpg';
 import './scripts/cursor-trail.js';
 import './scripts/portfolio-cursor.js';
 import { initRisingInk } from './scripts/rising-ink.js';
-import './design/flow-transition.css';
-import './design/resume-doodles.css';
-import './design/portfolio-cursor.css';
+import './design/style/flow-transition.css';
+import './design/section/resume-doodles.css';
+import './design/style/portfolio-cursor.css';
 
 const bootScreen = document.querySelector('#boot-screen');
 const bootMessage = document.querySelector('#boot-message');
