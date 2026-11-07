@@ -1,0 +1,11 @@
+.folders .folder{background:#fff;border:1px solid #d3c9d3;color:#161522;border-radius:11px;padding:10px 11px;margin:0 0 8px;font:11px var(--mono);transition:background .16s,border-color .16s,box-shadow .16s,transform .16s}
+.folder-label{display:flex;align-items:center;gap:10px;min-width:0;white-space:nowrap}
+.folder-icon{position:relative;display:inline-block;width:16px;height:12px;flex:none;border-radius:2px;background:var(--folder-color);transition:transform .16s}
+.folder-icon:before{content:'';position:absolute;left:1px;top:-3px;width:7px;height:4px;border-radius:2px 2px 0 0;background:var(--folder-color)}
+.folder-projects{--folder-color:#ff5e88;--folder-tint:#ffe2eb}.folder-skills{--folder-color:#cf65bb;--folder-tint:#f9e3f5}.folder-experience{--folder-color:#ed4f9a;--folder-tint:#ffe0ef}
+.folders .folder small{font:10px var(--mono);color:#30303c;background:var(--folder-tint);border:1px solid color-mix(in srgb,var(--folder-color),white 48%);border-radius:5px;padding:4px 6px;flex:none}
+.folders .folder-projects:hover,.folders .folder-projects.active{background:var(--folder-tint)!important;border-color:var(--folder-color)!important;color:#8e2444;box-shadow:3px 3px 0 var(--folder-color)!important;transform:translate(-1px,-1px)}
+.folders .folder-skills:hover,.folders .folder-skills.active{background:var(--folder-tint)!important;border-color:var(--folder-color)!important;color:#7e2f79;box-shadow:3px 3px 0 var(--folder-color)!important;transform:translate(-1px,-1px)}
+.folders .folder-experience:hover,.folders .folder-experience.active{background:var(--folder-tint)!important;border-color:var(--folder-color)!important;color:#92265d;box-shadow:3px 3px 0 var(--folder-color)!important;transform:translate(-1px,-1px)}
+.folders .folder:hover .folder-icon,.folders .folder.active .folder-icon{transform:scale(1.12)}.folders .folder:focus-visible{outline:2px solid #f24f9a;outline-offset:2px}
+@media(max-width:640px){.folders,.memo{display:none}}

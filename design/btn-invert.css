@@ -1,0 +1,117 @@
+.btn-invert {
+  --btn-bg: #fff;
+  --btn-hover-shadow: #ff4081;
+  border: 2.5px solid #14141f;
+  border-radius: 14px;
+  background-color: var(--btn-bg);
+  color: #14141f;
+  box-shadow: 4px 4px 0 #14141f;
+  transition: background-color .2s ease, color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+.btn-invert.btn-pink { --btn-bg: #ff4081; }
+.btn-invert.btn-white { --btn-bg: #fff; }
+.btn-invert.btn-yellow { --btn-bg: #ffd23f; }
+.btn-invert.btn-lime { --btn-bg: #b6f03a; }
+
+/* The hero has stronger legacy button selectors, so keep its shared states explicit. */
+.about-home .hero .button.btn-invert {
+  background-color: var(--btn-bg);
+  color: #14141f;
+  border: 2.5px solid #14141f;
+  box-shadow: 4px 4px 0 #14141f;
+  transition: background-color .2s ease, color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+/* Project cards are links too; use button-state timing instead of card lift. */
+a.project.card-hover.btn-invert {
+  border: 2.5px solid #14141f;
+  border-radius: 14px;
+  box-shadow: 4px 4px 0 #14141f;
+}
+
+@media (hover: hover) {
+  .btn-invert:hover {
+    background-color: #14141f;
+    color: #fff;
+    box-shadow: 4px 4px 0 var(--btn-hover-shadow);
+  }
+
+  a.project.card-hover.btn-invert:hover {
+    transform: none;
+    box-shadow: 4px 4px 0 var(--btn-hover-shadow);
+  }
+
+  .about-home .hero .button.btn-invert:hover {
+    background-color: #14141f;
+    color: #fff;
+    box-shadow: 4px 4px 0 var(--btn-hover-shadow);
+  }
+}
+
+.btn-invert:focus-visible {
+  background-color: #14141f;
+  color: #fff;
+  box-shadow: 4px 4px 0 var(--btn-hover-shadow);
+  outline: 3px solid #14141f;
+  outline-offset: 3px;
+}
+
+.about-home .hero .button.btn-invert:focus-visible {
+  background-color: #14141f;
+  color: #fff;
+  box-shadow: 4px 4px 0 var(--btn-hover-shadow);
+  outline: 3px solid #14141f;
+  outline-offset: 3px;
+}
+
+a.project.card-hover.btn-invert:focus-visible {
+  transform: none;
+  box-shadow: 4px 4px 0 var(--btn-hover-shadow);
+}
+
+.btn-invert:active {
+  background-color: #14141f;
+  color: #fff;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--btn-hover-shadow);
+}
+
+.about-home .hero .button.btn-invert:active {
+  background-color: #14141f;
+  color: #fff;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--btn-hover-shadow);
+}
+
+a.project.card-hover.btn-invert:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--btn-hover-shadow);
+}
+
+.btn-invert:disabled,
+.btn-invert[aria-disabled="true"] {
+  opacity: .5;
+  pointer-events: none;
+}
+
+/* Keep project links legible while their whole-card surface is inverted. */
+@media (hover: hover) {
+  a.project.btn-invert:hover .project-body p { color: #fff; }
+}
+
+a.project.btn-invert:focus-visible .project-body p,
+a.project.btn-invert:active .project-body p { color: #fff; }
+
+a.project.card-hover.btn-invert:hover,
+a.project.card-hover.btn-invert:focus-visible,
+a.project.card-hover.btn-invert:active {
+  background-color: #14141f;
+  color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-invert { transition: background-color .2s ease, color .2s ease, box-shadow .2s ease; }
+  .btn-invert:active { transform: none; box-shadow: 4px 4px 0 var(--btn-hover-shadow); }
+  .about-home .hero .button.btn-invert:active { transform: none; box-shadow: 4px 4px 0 var(--btn-hover-shadow); }
+}

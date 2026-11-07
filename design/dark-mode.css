@@ -1,0 +1,326 @@
+/* Dark theme surfaces and readable foregrounds for every portfolio view. */
+body.dark-mode {
+  --ink: #111217;
+  --canvas: #111217;
+  --grid: #171922;
+  color: #f5f5fa;
+  background-color: #111217;
+  background-image: none;
+}
+
+body.dark-mode .window,
+body.dark-mode .view {
+  background-color: #111217;
+  color: #f5f5fa;
+}
+
+body.dark-mode .view h2,
+body.dark-mode .view h3,
+body.dark-mode .view h4,
+body.dark-mode .view label,
+body.dark-mode .view b,
+body.dark-mode .view strong {
+  color: #f5f5fa;
+}
+
+body.dark-mode .sidebar {
+  background: #15161d;
+  color: #f5f5fa;
+  border-color: #292a34;
+}
+
+body.dark-mode .profile,
+body.dark-mode .skill-card,
+body.dark-mode .project,
+body.dark-mode .cert,
+body.dark-mode .contact-card,
+body.dark-mode .contact-form,
+body.dark-mode .role,
+body.dark-mode .competency,
+body.dark-mode .ready-card,
+body.dark-mode .impact-card,
+body.dark-mode .showcase-card,
+body.dark-mode .resume-item,
+body.dark-mode .availability-card {
+  background: #1b1c26;
+  color: #f5f5fa;
+  border-color: #22232d;
+  box-shadow: none;
+}
+
+body.dark-mode .profile p,
+body.dark-mode .hero-copy,
+body.dark-mode .competency p,
+body.dark-mode .project-body p,
+body.dark-mode .contact-heading p,
+body.dark-mode .skills-heading p,
+body.dark-mode .resume-heading p,
+body.dark-mode .resume-detail p,
+body.dark-mode .direct-card > p,
+body.dark-mode .availability-card p,
+body.dark-mode .principles li,
+body.dark-mode .cert p,
+body.dark-mode .role .meta {
+  color: #c7c9d4;
+}
+
+body.dark-mode .about-home .hero {
+  background: linear-gradient(135deg, #1b1c26 0%, #20212c 100%);
+  border-color: #292a34;
+  box-shadow: none;
+}
+
+body.dark-mode .about-home .hero h1,
+body.dark-mode .about-home .hero h1 em {
+  color: #fff8fc;
+}
+
+body.dark-mode .skills-view,
+body.dark-mode .contact-view,
+body.dark-mode .resume-view {
+  background: #111217;
+  color: #f5f5fa;
+}
+
+body.dark-mode .education-paper {
+  background-color: #111217;
+  background-image: none;
+  color: #f5f5fa;
+  border-color: #292a34;
+  box-shadow: none;
+}
+
+body.dark-mode .edu-card {
+  background: #1b1c26;
+  color: #f5f5fa;
+  border-color: #22232d;
+}
+
+body.dark-mode .contact-form-reference,
+body.dark-mode .direct-card {
+  background: #1b1c26;
+  color: #f5f5fa;
+  border-color: #22232d;
+  box-shadow: none;
+}
+
+body.dark-mode .contact-form-reference input,
+body.dark-mode .contact-form-reference select,
+body.dark-mode .contact-form-reference textarea {
+  background: #111217;
+  color: #f5f5fa;
+  border-color: #292a34;
+  color-scheme: dark;
+}
+
+body.dark-mode .contact-form-reference input::placeholder,
+body.dark-mode .contact-form-reference textarea::placeholder {
+  color: #a7a8b9;
+}
+
+body.dark-mode .direct-row {
+  background: #111217;
+  color: #f5f5fa;
+  border-color: #292a34;
+}
+
+body.dark-mode .direct-row a {
+  color: #f5f5fa;
+}
+
+body.dark-mode .direct-row .copy,
+body.dark-mode .direct-row .open-link {
+  background: #292b36;
+  border-color: #3b3d49;
+  color: #f5f5fa;
+}
+
+body.dark-mode .direct-row .copy {
+  background: #ffdf68;
+  border-color: #ffdf68;
+  color: #161522;
+}
+
+body.dark-mode .contact-heading,
+body.dark-mode .skills-heading,
+body.dark-mode .resume-heading {
+  border-color: #484a5a;
+}
+
+body.dark-mode .chip-list span,
+body.dark-mode .tool-tiles span,
+body.dark-mode .tag,
+body.dark-mode .pill {
+  background: #22242e;
+  color: #f5f5fa;
+  border-color: #30313d;
+}
+
+body.dark-mode .folder {
+  background: #1b1c26;
+  color: #f5f5fa;
+  border-color: #30313d;
+}
+
+body.dark-mode .folders .folder-projects:hover,
+body.dark-mode .folders .folder-projects.active,
+body.dark-mode .folders .folder-skills:hover,
+body.dark-mode .folders .folder-skills.active,
+body.dark-mode .folders .folder-experience:hover,
+body.dark-mode .folders .folder-experience.active {
+  color: #381126;
+}
+
+body.dark-mode .folders .folder small {
+  color: #30283a;
+}
+
+body.dark-mode .titlebar {
+  background: #1b1c26 !important;
+  border-color: #292a34;
+}
+
+body.dark-mode .taskbar {
+  background: #111217;
+  border-color: #292a34;
+}
+
+body.dark-mode .tabs {
+  background: #111217;
+  border-color: #292a34;
+}
+
+body.dark-mode .tab.active {
+  background: #ffd000;
+  color: #161522;
+  box-shadow: none;
+}
+
+body.dark-mode .window-file,
+body.dark-mode .tabs,
+body.dark-mode .taskbar {
+  color: #fff;
+}
+
+body.dark-mode .memo {
+  background: #fff1a6;
+  color: #161522;
+}
+
+body.dark-mode .resume-date,
+body.dark-mode .resume-date.green {
+  color: #171722;
+}
+
+body.dark-mode .resume-date.plain {
+  color: #f5f5fa;
+  background: #292b36;
+  border-color: #3b3d49;
+}
+
+body.dark-mode .meter {
+  background: #252733;
+  border-color: #343642;
+}
+
+body.dark-mode .contact-form-reference .send-message {
+  color: #171722;
+}
+
+/* The editorial resume is a separate overlay, so theme its paper and type too. */
+body.dark-mode .resume-overlay {
+  background: rgb(12 13 18 / 88%);
+}
+
+body.dark-mode .resume-zine {
+  background: #111217;
+  color: #f5f5fa;
+  border-color: #292a34;
+  box-shadow: 8px 8px 0 #08090d;
+}
+
+body.dark-mode .resume-close {
+  background: #292b36;
+  color: #f5f5fa;
+  border-color: #474958;
+  box-shadow: 2px 2px 0 #08090d;
+}
+
+body.dark-mode .resume-close small,
+body.dark-mode .zine-browser,
+body.dark-mode .zine-masthead h1,
+body.dark-mode .zine-experience p b,
+body.dark-mode .zine-footer a {
+  color: #f5f5fa;
+}
+
+body.dark-mode .zine-browser {
+  background: #1b1c26;
+  border-color: #30313d;
+}
+
+body.dark-mode .zine-masthead,
+body.dark-mode .zine-entry,
+body.dark-mode .zine-experience,
+body.dark-mode .zine-cert,
+body.dark-mode .zine-footer {
+  border-color: #30313d;
+}
+
+body.dark-mode .zine-section > h2,
+body.dark-mode .zine-masthead p,
+body.dark-mode .zine-entry h3,
+body.dark-mode .zine-projects h3,
+body.dark-mode .zine-three h3,
+body.dark-mode .zine-three article > b {
+  color: #f5f5fa;
+}
+
+body.dark-mode .zine-intro,
+body.dark-mode .zine-three p,
+body.dark-mode .zine-entry p,
+body.dark-mode .zine-projects p,
+body.dark-mode .zine-experience p,
+body.dark-mode .zine-cert {
+  color: #c7c9d4;
+}
+
+body.dark-mode .zine-kicker,
+body.dark-mode .zine-entry > span,
+body.dark-mode .zine-projects article > b,
+body.dark-mode .zine-entry b,
+body.dark-mode .zine-footer {
+  color: #e6a0c1;
+}
+
+body.dark-mode .zine-three article,
+body.dark-mode .zine-three article:nth-child(2),
+body.dark-mode .zine-projects article,
+body.dark-mode .zine-projects article:nth-child(2),
+body.dark-mode .zine-tags span {
+  background: #1b1c26;
+  color: #f5f5fa;
+  border-color: #30313d;
+}
+
+body.dark-mode .card-hover.card-hover {
+  box-shadow: 5px 5px 0 var(--shadow-rest, #14141f);
+}
+
+body.dark-mode .direct-row.card-hover {
+  --shadow-hover: #101117;
+}
+
+@media (hover: hover) {
+  body.dark-mode .card-hover.card-hover:hover {
+    box-shadow: 9px 9px 0 var(--shadow-hover, #ff3f7f);
+  }
+}
+
+body.dark-mode .card-hover.card-hover:focus-visible {
+  box-shadow: 9px 9px 0 var(--shadow-hover, #ff3f7f);
+}
+
+body.dark-mode .card-hover.card-hover:active {
+  box-shadow: 2px 2px 0 var(--shadow-hover, #ff3f7f);
+}

@@ -1,0 +1,22 @@
+.about-home .hero h1 {
+  perspective: 900px;
+  transform-style: preserve-3d;
+  overflow: visible;
+}
+
+.rising-ink-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.rising-ink-letter {
+  display: inline-block;
+  transform-style: preserve-3d;
+  transform-origin: 50% 100%;
+  transition: transform 180ms cubic-bezier(.2, .8, .2, 1), text-shadow 180ms ease;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rising-ink-letter { transition: none; }
+}

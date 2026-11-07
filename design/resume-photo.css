@@ -1,0 +1,6 @@
+.zine-intro-row{display:grid;grid-template-columns:130px minmax(0,1fr);align-items:center;gap:20px;margin:15px auto 25px;max-width:760px}
+.zine-intro-row figure{margin:0;padding:5px;background:#f7d2e1;border:1.5px solid #161522;box-shadow:3px 3px 0 #161522;transform:rotate(-2deg)}
+.zine-intro-row img{display:block;width:100%;height:150px;object-fit:cover;border:1px solid #161522}
+.zine-intro-row figcaption{text-align:center;padding-top:5px;font:8px var(--mono);letter-spacing:.04em}
+.zine-intro-row .zine-intro{margin:0;text-align:left;font-size:14px;line-height:1.75}
+@media(max-width:650px){.zine-intro-row{grid-template-columns:95px minmax(0,1fr);gap:13px;margin:12px auto 20px}.zine-intro-row img{height:125px}.zine-intro-row .zine-intro{font-size:11px}}

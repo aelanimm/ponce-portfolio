@@ -1,0 +1,72 @@
+.resume-zine .zine-inner {
+  position: relative;
+  isolation: isolate;
+}
+
+.resume-zine .zine-inner > :not(.zine-doodles) {
+  position: relative;
+  z-index: 1;
+}
+
+.zine-doodles {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.zine-doodle-float {
+  position: absolute;
+  display: block;
+  margin: 0;
+  line-height: 1;
+  animation: zine-doodle-drift 4.2s ease-in-out infinite alternate;
+}
+
+.doodle-star { font-size: 21px; }
+.doodle-note { font: 24px/1 Georgia, serif; }
+.doodle-ink { color: #161522; }
+.doodle-pink { color: #ff3b7a; }
+.doodle-cat {
+  font: 9px/1.05 var(--mono);
+  letter-spacing: -.08em;
+  opacity: .28;
+  text-align: center;
+}
+
+.zine-doodles > :nth-child(1) { top: 4%; left: 7px; animation-delay: -.6s; }
+.zine-doodles > :nth-child(2) { top: 14%; right: 8px; font-size: 18px; animation-delay: -1.8s; }
+.zine-doodles > :nth-child(3) { top: 28%; right: 7px; font-size: 25px; animation-delay: -2.5s; }
+.zine-doodles > :nth-child(4) { top: 40%; left: 5px; font-size: 19px; animation-delay: -1.2s; }
+.zine-doodles > :nth-child(5) { top: 53%; right: 6px; font-size: 19px; animation-delay: -3.1s; }
+.zine-doodles > :nth-child(6) { top: 61%; left: 4px; }
+.zine-doodles > :nth-child(7) { top: 73%; right: 8px; font-size: 24px; animation-delay: -.9s; }
+.zine-doodles > :nth-child(8) { top: 83%; left: 8px; }
+.zine-doodles > :nth-child(9) { top: 91%; right: 5px; animation-delay: -2s; }
+.zine-doodles > :nth-child(10) { top: 98%; left: 48%; font-size: 17px; animation-delay: -1.4s; }
+
+.doodle-heart {
+  display: grid;
+  width: 27px;
+  height: 27px;
+  place-items: center;
+  border: 1px solid #ffb5cc;
+  border-radius: 50%;
+  background: #ffe5ef;
+  color: #ff3b7a;
+  font-size: 17px;
+}
+
+@keyframes zine-doodle-drift {
+  from { transform: translate3d(0, 0, 0) rotate(-5deg); }
+  to { transform: translate3d(0, -7px, 0) rotate(5deg); }
+}
+
+body.dark-mode .doodle-ink { color: #fff0f6; }
+body.dark-mode .doodle-heart { background: #362331; border-color: #8a4665; }
+
+@media (prefers-reduced-motion: reduce) {
+  .zine-doodle-float { animation: none; }
+}
