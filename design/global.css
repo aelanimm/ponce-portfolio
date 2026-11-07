@@ -39,3 +39,25 @@
   .card-hover.card-hover.card-hover:focus-visible { transform: none; }
   .card-hover.card-hover.card-hover:active { transform: none; box-shadow: 5px 5px 0 var(--shadow-hover); }
 }
+
+/* Keep the default desktop wallpaper pink in both cover and OS states. */
+body[data-palette=peach]{--canvas:#fce5ef;--grid:rgba(255,255,255,.9);background-color:#fce5ef!important;background-image:linear-gradient(rgba(255,255,255,.9) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.9) 1px,transparent 1px),radial-gradient(circle at 20% 20%,#ffe1ee,#fce5ef 60%)!important;background-size:40px 40px,40px 40px,auto!important}
+
+/* Keep the cover and OS card still; apply the slide only to the top taskbar. */
+.stack-cover{transform:none;opacity:1;transition:none;will-change:auto}
+body.os-open .stack-cover{visibility:hidden;transform:none;opacity:1}
+body:not(.os-open) .stack-cover{visibility:visible}
+.stack-os{transform:none;opacity:1;transition:none;will-change:auto}
+body:not(.os-open)>.stack-os{visibility:hidden;opacity:1;transform:none;pointer-events:none}
+body.os-open>.stack-os{visibility:visible;opacity:1;transform:none;pointer-events:auto;transition:none}
+.stack-taskbar{transform:translateY(-100%);opacity:1;transition:none;will-change:transform}
+body:not(.os-open)>.stack-taskbar{visibility:hidden;opacity:1;transform:translateY(-100%);pointer-events:none;transition:none}
+body:not(.os-open)>.stack-taskbar.taskbar-rise{visibility:visible}
+body.os-open>.stack-taskbar{visibility:visible;opacity:1;transform:translateY(0);pointer-events:auto;transition:none}
+.taskbar-drop{animation:taskbar-drop 450ms cubic-bezier(.32,.72,0,1) 100ms both}
+.taskbar-rise{animation:taskbar-rise 450ms cubic-bezier(.32,.72,0,1) both}
+@keyframes taskbar-drop{from{transform:translateY(-110%)}to{transform:translateY(0)}}
+@keyframes taskbar-rise{from{transform:translateY(0)}to{transform:translateY(-110%)}}
+.os-close{flex:0 0 28px;width:28px;height:28px;margin-left:auto;padding:0;border:2px solid #14141f;border-radius:50%;background:#fff;color:#14141f;font:700 18px/1 var(--mono);cursor:pointer;box-shadow:2px 2px 0 #14141f;transition:transform .15s,box-shadow .15s}
+.os-close:hover{transform:translate(2px,2px);box-shadow:none}
+@media(prefers-reduced-motion:reduce){.stack-cover,.stack-os,.stack-taskbar{transition:none;animation:none;will-change:auto}.os-close{transition:none}}

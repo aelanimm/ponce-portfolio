@@ -5,6 +5,27 @@ import { initRisingInk } from './scripts/rising-ink.js';
 import './design/flow-transition.css';
 import './design/resume-doodles.css';
 
+const bootScreen = document.querySelector('#boot-screen');
+const bootMessage = document.querySelector('#boot-message');
+const bootPercent = document.querySelector('#boot-percent');
+const bootSteps = [
+  [750, 'LOADING PORTFOLIO ASSETS...', '28%'],
+  [1500, 'MOUNTING CREATIVE WORKSPACE...', '61%'],
+  [2250, 'PREPARING AYLA_OS DESKTOP...', '86%']
+];
+bootSteps.forEach(([delay, message, percent]) => setTimeout(() => {
+  if (!bootScreen?.isConnected) return;
+  bootMessage.textContent = message;
+  bootPercent.textContent = percent;
+}, delay));
+setTimeout(() => {
+  if (!bootScreen) return;
+  bootMessage.textContent = 'SYSTEM READY';
+  bootPercent.textContent = '100%';
+  bootScreen.classList.add('is-done');
+  setTimeout(() => bootScreen.remove(), 450);
+}, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 250 : 3000);
+
 const sections = [
   {id:'about', label:'About', icon:'⌂', count:'01'},
   {id:'education', label:'Education', icon:'▤', count:'01'},
@@ -20,6 +41,7 @@ const sidebar = document.querySelector('.sidebar');
 const pageSlider = document.querySelector('#page-slider');
 const coverScreen = document.querySelector('#cover-screen');
 const desktop = document.querySelector('.desktop');
+const taskbar = document.querySelector('.stack-taskbar');
 let activeSection = null;
 let transitionBusy = false;
 const pause = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
@@ -68,12 +90,30 @@ document.querySelectorAll('.task-cta[data-open]').forEach(el=>el.addEventListene
 async function showSection(id,animate=true){if(!views[id]||id===activeSection||transitionBusy)return;if(!animate||!activeSection||window.matchMedia('(prefers-reduced-motion: reduce)').matches){renderSection(id);return}transitionBusy=true;pageSlider.classList.add('is-transitioning');const oldPage=pageSlider.querySelector('.section-page');const newPage=document.createElement('div');preparePage(newPage,id);const forward=sections.findIndex(section=>section.id===id)>sections.findIndex(section=>section.id===activeSection);oldPage.classList.add(forward?'flow-exit-left':'flow-exit-right');newPage.classList.add(forward?'flow-enter-right':'flow-enter-left');pageSlider.append(newPage);setActiveSection(id);activeSection=id;await pause(480);oldPage.remove();newPage.classList.remove('flow-enter-right','flow-enter-left');pageSlider.classList.remove('is-transitioning');transitionBusy=false;}
 function toast(message){const t=document.querySelector('#toast');t.textContent=message;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
 function enterOS(section='about'){
+  const isAlreadyOpen=document.body.classList.contains('os-open');
   document.body.classList.add('os-open');
   coverScreen.setAttribute('aria-hidden','true');
+  if(!isAlreadyOpen)playTaskbarMotion('taskbar-drop');
   showSection(section,false);
 }
-function returnToCover(){document.body.classList.remove('os-open');coverScreen.setAttribute('aria-hidden','false');}
-document.querySelector('#enter-os').addEventListener('click',()=>enterOS('about'));
+function playTaskbarMotion(animationClass){
+  taskbar.classList.remove('taskbar-drop','taskbar-rise');
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  void taskbar.offsetWidth;
+  taskbar.classList.add(animationClass);
+  taskbar.addEventListener('animationend',()=>taskbar.classList.remove(animationClass),{once:true});
+}
+function returnToCover(){
+  if(!document.body.classList.contains('os-open'))return;
+  playTaskbarMotion('taskbar-rise');
+  document.body.classList.remove('os-open');
+  coverScreen.setAttribute('aria-hidden','false');
+}
+document.querySelector('#cover-window').addEventListener('click',()=>enterOS('about'));
+document.querySelector('#enter-os').addEventListener('click',event=>{
+  event.stopPropagation();
+  enterOS('about');
+});
 document.querySelector('[data-resume]').addEventListener('click',()=>{enterOS('about');openResume()});
 document.querySelector('.cover-close').addEventListener('click',event=>{
   event.stopPropagation();
@@ -85,6 +125,7 @@ document.querySelector('.cover-close').addEventListener('click',event=>{
 });
 document.querySelectorAll('.shortcut-control[data-open]').forEach(shortcut=>shortcut.addEventListener('click',()=>enterOS(shortcut.dataset.open)));
 document.querySelector('.home-control').addEventListener('click',returnToCover);
+document.querySelector('.os-close').addEventListener('click',returnToCover);
 document.addEventListener('click',e=>{const button=e.target.closest('[data-section]');if(button)showSection(button.dataset.section)});
 function clock(){document.querySelector('#clock').textContent=new Intl.DateTimeFormat('en-PH',{timeZone:'Asia/Manila',hour:'2-digit',minute:'2-digit',second:'2-digit'}).format(new Date())}
 clock();setInterval(clock,1000);
