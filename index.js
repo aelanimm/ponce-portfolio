@@ -1,9 +1,11 @@
 import headerGif from './assets/header.gif';
 import profileImage from './assets/images/profile.jpg';
 import './scripts/cursor-trail.js';
+import './scripts/portfolio-cursor.js';
 import { initRisingInk } from './scripts/rising-ink.js';
 import './design/flow-transition.css';
 import './design/resume-doodles.css';
+import './design/portfolio-cursor.css';
 
 const bootScreen = document.querySelector('#boot-screen');
 const bootMessage = document.querySelector('#boot-message');
@@ -23,7 +25,10 @@ setTimeout(() => {
   bootMessage.textContent = 'SYSTEM READY';
   bootPercent.textContent = '100%';
   bootScreen.classList.add('is-done');
-  setTimeout(() => bootScreen.remove(), 450);
+  setTimeout(() => {
+    bootScreen.setAttribute('aria-hidden','true');
+    toast('Welcome to my portfolio');
+  }, 450);
 }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 250 : 3000);
 
 const sections = [
@@ -96,6 +101,34 @@ function enterOS(section='about'){
   if(!isAlreadyOpen)playTaskbarMotion('taskbar-drop');
   showSection(section,false);
 }
+let systemLoadBusy=false;
+function openSystemWithLoader(section='about'){
+  if(systemLoadBusy||document.body.classList.contains('os-open'))return;
+  systemLoadBusy=true;
+  const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const progress=bootScreen.querySelector('.boot-progress span');
+  bootMessage.textContent='LOADING AYLA_OS...';
+  bootPercent.textContent='00%';
+  bootScreen.setAttribute('aria-hidden','false');
+  bootScreen.classList.add('quick-boot');
+  bootScreen.classList.remove('is-done');
+  progress.style.animation='none';
+  void progress.offsetWidth;
+  progress.style.animation='';
+  setTimeout(()=>{
+    bootMessage.textContent='SYSTEM READY';
+    bootPercent.textContent='100%';
+    enterOS(section);
+    bootScreen.classList.add('is-done');
+    const finish=()=>{
+      bootScreen.setAttribute('aria-hidden','true');
+      bootScreen.classList.remove('quick-boot');
+      systemLoadBusy=false;
+    };
+    if(reduceMotion)finish();
+    else setTimeout(finish,450);
+  },reduceMotion?0:1100);
+}
 function playTaskbarMotion(animationClass){
   taskbar.classList.remove('taskbar-drop','taskbar-rise');
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
@@ -103,6 +136,15 @@ function playTaskbarMotion(animationClass){
   taskbar.classList.add(animationClass);
   taskbar.addEventListener('animationend',()=>taskbar.classList.remove(animationClass),{once:true});
 }
+document.querySelectorAll('.shortcut-control').forEach(control=>{
+  control.addEventListener('click',()=>{
+    const tile=control.querySelector('.shortcut-tile');
+    tile.classList.remove('shortcut-popping');
+    void tile.offsetWidth;
+    tile.classList.add('shortcut-popping');
+    tile.addEventListener('animationend',()=>tile.classList.remove('shortcut-popping'),{once:true});
+  });
+});
 function returnToCover(){
   if(!document.body.classList.contains('os-open'))return;
   playTaskbarMotion('taskbar-rise');
@@ -112,7 +154,7 @@ function returnToCover(){
 document.querySelector('#cover-window').addEventListener('click',()=>enterOS('about'));
 document.querySelector('#enter-os').addEventListener('click',event=>{
   event.stopPropagation();
-  enterOS('about');
+  openSystemWithLoader('about');
 });
 document.querySelector('[data-resume]').addEventListener('click',()=>{enterOS('about');openResume()});
 document.querySelector('.cover-close').addEventListener('click',event=>{

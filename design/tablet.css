@@ -1,0 +1,72 @@
+/* Keep the full desktop composition on tablet viewports, scaled into clear gutters. */
+@media (min-width: 641px) and (max-width: 1024px), (min-width: 641px) and (max-width: 1600px) and (pointer: coarse) {
+  body { overflow: auto; }
+  .desktop-shortcuts { display: flex; top: 50%; gap: clamp(12px, 2.4vh, 22px); }
+  .shortcuts-left { left: 8px; }
+  .shortcuts-right { right: 8px; }
+  .desktop-shortcut { width: 88px; }
+  .desktop { width: calc(100vw - 220px); max-width: 1140px; margin: 12px auto; padding: 0; }
+  .cover-screen { padding: 20px; }
+  .cover-window { width: min(820px, calc(100vw - 220px)); }
+  .cover-body { padding: clamp(18px, 3.2vw, 30px) clamp(16px, 4vw, 42px) clamp(22px, 3.5vw, 38px); }
+  .artboard { height: clamp(205px, 30vh, 305px); margin: 22px 0 24px; }
+  .cover-title { font-size: clamp(64px, 9vw, 108px); }
+  .cover-actions { gap: 10px; }
+  .taskbar { min-height: 46px; height: auto; padding: 7px clamp(12px, 2vw, 24px); gap: 8px; }
+  .task-actions { gap: 6px; }
+  .titlebar { position: relative; align-items: flex-start; flex-direction: column; gap: 7px; padding: 10px 48px 9px 12px; }
+  .window-file { width: 100%; font-size: clamp(9px, 1vw, 11px); }
+  .titlebar .tabs { width: 100%; max-width: 100%; }
+  .os-close { position: absolute; top: 10px; right: 12px; margin: 0; }
+  .workspace { grid-template-columns: clamp(135px, 20vw, 230px) minmax(0, 1fr); min-height: 600px; max-height: none; }
+  .sidebar { min-width: 0; padding: clamp(7px, 1.4vw, 15px); gap: clamp(8px, 1.4vw, 16px); }
+  .profile { min-width: 0; padding: clamp(7px, 1.3vw, 14px); }
+  .avatar-wrap, .avatar { width: clamp(48px, 6.3vw, 86px); height: clamp(48px, 6.3vw, 86px); }
+  .avatar-wrap { margin: clamp(5px, 1vw, 14px) auto; }
+  .profile h2 { font-size: clamp(12px, 1.5vw, 19px); overflow-wrap: anywhere; }
+  .profile p, .pill { font-size: clamp(8px, .85vw, 11px); overflow-wrap: anywhere; }
+  .folders h3 { font-size: clamp(7px, .8vw, 10px); letter-spacing: .04em; overflow-wrap: anywhere; }
+  .folder { min-width: 0; padding: clamp(4px, .7vw, 9px); font-size: clamp(8px, .85vw, 11px); }
+  .folder-label { min-width: 0; overflow-wrap: anywhere; }
+  .folder small { font-size: 8px; }
+  .memo { padding: clamp(7px, 1vw, 13px); font-size: clamp(8px, .85vw, 11px); }
+  .view { min-width: 0; padding: clamp(10px, 1.5vw, 22px); overflow: visible; }
+  .about-home .hero { grid-template-columns: minmax(0, 1fr) clamp(115px, 16vw, 220px); gap: clamp(8px, 1.5vw, 20px); padding: clamp(10px, 1.5vw, 22px); }
+  .mascot-frame { width: clamp(115px, 16vw, 220px); height: clamp(115px, 16vw, 220px); }
+  .about-home .hero h1 { font-size: clamp(21px, 2.8vw, 38px); }
+  .about-home .hero-copy { font-size: clamp(9px, .95vw, 12px); }
+  .competencies { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(6px, 1vw, 12px); }
+  .competency { min-width: 0; padding: clamp(7px, 1vw, 14px); }
+  .competency h3, .competency p { overflow-wrap: anywhere; }
+  .about-bottom { grid-template-columns: 1.15fr .85fr; gap: clamp(6px, 1vw, 12px); }
+  .skills-showcase { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(8px, 1.5vw, 19px); }
+  .contact-layout { grid-template-columns: minmax(0, 1.2fr) minmax(0, .9fr); gap: clamp(8px, 1.5vw, 24px); }
+  .project-grid, .cert-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .statusbar { flex-wrap: wrap; gap: 7px 12px; padding: 8px 10px; font-size: 8px; }
+}
+
+@media (min-width: 641px) and (max-width: 760px), (min-width: 641px) and (max-width: 760px) and (pointer: coarse) {
+  .shortcuts-left { left: 4px; }
+  .shortcuts-right { right: 4px; }
+  .desktop-shortcut { width: 76px; }
+  .shortcut-control, .shortcut-tile { width: 56px; height: 56px; }
+  .shortcut-label { padding: 3px 5px; font-size: 8px; }
+  .desktop { width: calc(100vw - 180px); }
+  .cover-window { width: min(820px, calc(100vw - 180px)); }
+  .workspace { grid-template-columns: 125px minmax(0, 1fr); }
+  .about-home .hero { grid-template-columns: minmax(0, 1fr); }
+  .mascot-frame { width: 112px; height: 112px; margin: 0 auto; }
+  .competencies { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .about-bottom, .skills-showcase, .contact-layout, .project-grid, .cert-grid { grid-template-columns: 1fr; }
+  .taskbar { flex-wrap: wrap; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .desktop-shortcut, .shortcut-tile { transition: none; }
+}
+
+/* Restore the full desktop card size while reserving room for shortcuts at medium widths. */
+.desktop { max-width: 1420px; }
+@media (min-width: 1340px) and (max-width: 1600px) {
+  .desktop { width: calc(100vw - 220px); max-width: 1420px; }
+}

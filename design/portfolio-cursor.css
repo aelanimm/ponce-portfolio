@@ -1,0 +1,44 @@
+html.custom-cursor-active,
+html.custom-cursor-active * { cursor: none !important; }
+html.custom-cursor-active :is(input, textarea, select, [contenteditable="true"]) { cursor: text !important; }
+.portfolio-cursor {
+  position: fixed;
+  z-index: 30000;
+  left: 0;
+  top: 0;
+  width: 34px;
+  height: 42px;
+  pointer-events: none;
+  user-select: none;
+  transform: translate3d(var(--cursor-x, 0), var(--cursor-y, 0), 0);
+  will-change: transform;
+}
+.portfolio-cursor.is-hidden { visibility: hidden; }
+.portfolio-cursor-arrow {
+  display: block;
+  width: 30px;
+  height: 40px;
+  overflow: visible;
+  filter: drop-shadow(2px 2px 0 #14141f);
+  transform-origin: 4px 4px;
+  transition: transform 130ms cubic-bezier(.2,.8,.2,1);
+}
+.cursor-arrow-fill { fill: #ff4081; stroke: #14141f; stroke-width: 2.4; stroke-linejoin: round; }
+.cursor-arrow-detail { fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.portfolio-cursor-sparkle {
+  position: absolute;
+  top: -8px;
+  left: 22px;
+  color: #ffd23f;
+  font: 15px/1 var(--mono);
+  text-shadow: 1px 1px #14141f;
+  transition: transform 130ms ease;
+}
+.portfolio-cursor.is-hovering .portfolio-cursor-arrow { transform: scale(1.1) rotate(-4deg); }
+.portfolio-cursor.is-hovering .portfolio-cursor-sparkle { transform: rotate(20deg) scale(1.2); }
+.portfolio-cursor.is-down .portfolio-cursor-arrow { transform: scale(.88); }
+.portfolio-cursor.is-text { visibility: hidden; }
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  html.custom-cursor-active, html.custom-cursor-active * { cursor: auto !important; }
+  .portfolio-cursor { display: none; }
+}

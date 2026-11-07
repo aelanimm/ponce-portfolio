@@ -60,4 +60,6 @@ body.os-open>.stack-taskbar{visibility:visible;opacity:1;transform:translateY(0)
 @keyframes taskbar-rise{from{transform:translateY(0)}to{transform:translateY(-110%)}}
 .os-close{flex:0 0 28px;width:28px;height:28px;margin-left:auto;padding:0;border:2px solid #14141f;border-radius:50%;background:#fff;color:#14141f;font:700 18px/1 var(--mono);cursor:pointer;box-shadow:2px 2px 0 #14141f;transition:transform .15s,box-shadow .15s}
 .os-close:hover{transform:translate(2px,2px);box-shadow:none}
-@media(prefers-reduced-motion:reduce){.stack-cover,.stack-os,.stack-taskbar{transition:none;animation:none;will-change:auto}.os-close{transition:none}}
+.shortcut-popping{animation:shortcut-pop 340ms cubic-bezier(.2,.9,.3,1.35)}
+@keyframes shortcut-pop{0%{transform:scale(1)}35%{transform:scale(.78) rotate(-5deg)}68%{transform:scale(1.16) rotate(3deg)}100%{transform:scale(1) rotate(0)}}
+@media(prefers-reduced-motion:reduce){.stack-cover,.stack-os,.stack-taskbar{transition:none;animation:none;will-change:auto}.os-close{transition:none}.shortcut-popping{animation:none}}
