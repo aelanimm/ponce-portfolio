@@ -47,13 +47,21 @@ const pageSlider = document.querySelector('#page-slider');
 const coverScreen = document.querySelector('#cover-screen');
 const desktop = document.querySelector('.desktop');
 const taskbar = document.querySelector('.stack-taskbar');
+const mobilePath = document.querySelector('#mobile-path');
+const mobileMenuDialog = document.querySelector('#mobile-menu-dialog');
+const mobileMenuNav = document.querySelector('#mobile-page-menu');
+const mobileMenuButton = document.querySelector('#mobile-menu-toggle');
+const mobileMenuScrim = document.querySelector('#mobile-menu-scrim');
+const mobileNavBreakpoint = window.matchMedia('(max-width: 820px)');
+let mobileMenuOpen = false;
 let activeSection = null;
 let transitionBusy = false;
 const pause = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
 const hoverCardSelector = '.hero, .competency, .ready-card, .impact-card, .resume-item, .edu-card, .showcase-card, .skill-card, .role, .project, .cert, .contact-form-reference, .direct-card, .availability-card, .direct-row, .zine-three article, .zine-projects article, .profile, .memo';
 function applyCardHover(root){root.querySelectorAll(hoverCardSelector).forEach(card=>card.classList.add('card-hover'));}
-function applyButtonInvert(root){root.querySelectorAll('button:not(.tab):not(.folder), a.task-cta, a.open-link').forEach(button=>{button.classList.add('btn-invert');let color='white';if(button.matches('.task-cta,.send-message'))color='lime';else if(button.matches('.theme-button'))color='pink';else if(button.matches('.copy,.button:not(.secondary)'))color='yellow';button.classList.add(`btn-${color}`);});}
+function applyButtonInvert(root){root.querySelectorAll('button:not(.tab):not(.folder):not(.mobile-menu-toggle), a.task-cta, a.open-link').forEach(button=>{button.classList.add('btn-invert');let color='white';if(button.matches('.task-cta,.send-message'))color='lime';else if(button.matches('.theme-button'))color='pink';else if(button.matches('.copy,.button:not(.secondary)'))color='yellow';button.classList.add(`btn-${color}`);});}
 tabs.innerHTML = sections.map(s => `<button class="tab" data-section="${s.id}">${s.label}</button>`).join('');
+mobileMenuNav.innerHTML = sections.map(s => `<a class="mobile-menu-link" href="#${s.id}" data-section="${s.id}" data-menu-link>${s.label}</a>`).join('');
 sidebar.innerHTML = `<div class="profile" role="button" tabindex="0" aria-label="Click to open full resume" aria-haspopup="dialog"><div class="avatar-wrap"><img class="avatar" src="${profileImage}" alt="Ayla Isabel A. Ponce"><i class="beacon"></i></div><div><span class="hybrid">★ IT STUDENT</span><h2>Ayla Isabel A. Ponce</h2><p>4th year BS Information Technology student</p></div><div class="pills"><span class="pill">📍 San Jose del Monte, Bulacan</span><span class="pill">Open to internship</span></div><span class="profile-resume-hint">📄 &nbsp; View Full Resume <small>(Click)</small></span></div><div class="folders"><h3>WORKSPACE / DIRECTORY</h3><button class="folder folder-projects" data-section="projects"><span class="folder-label"><i class="folder-icon"></i>/Projects/Production</span><small>6</small></button><button class="folder folder-skills" data-section="skills"><span class="folder-label"><i class="folder-icon"></i>/Skills/Tech_Arsenal</span><small>16</small></button><button class="folder folder-experience" data-section="experience"><span class="folder-label"><i class="folder-icon"></i>/Career/Timeline.log</span><small>2021-now</small></button></div><div class="memo"><b>✎ DESK NOTE</b>“Build useful systems, make them clear, and keep learning.”</div>`;
 sidebar.querySelectorAll('.folder-projects small, .folder-skills small').forEach(badge=>badge.remove());
 applyButtonInvert(document);
@@ -88,7 +96,7 @@ contact: `<div class="section contact-view"><header class="contact-heading"><h2>
 };
 function meter(name,level){return `<div class="skill-row"><span>${name}</span><span class="mono">${level}%</span></div><div class="meter"><i style="width:${level}%"></i></div>`}
 function project(icon,title,description,stack){return `<a class="project card-hover" href="#contact" data-open="contact" aria-label="Ask Ayla about ${title}"><div class="project-art">${icon}</div><div class="project-body"><h3>${title}</h3><p>${description}</p><div class="tags"><span class="tag">${stack}</span></div><div class="project-actions"><span>PORTFOLIO ITEM</span></div></div></a>`}
-function setActiveSection(id){document.querySelectorAll('[data-section]').forEach(el=>el.classList.toggle('active',el.dataset.section===id));}
+function setActiveSection(id){document.querySelectorAll('[data-section]').forEach(el=>el.classList.toggle('active',el.dataset.section===id));if(mobilePath)mobilePath.textContent=`~/${id}`;mobileMenuNav.querySelectorAll('[data-menu-link]').forEach(link=>{if(link.dataset.section===id)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current')});}
 function preparePage(page,id){page.className='section-page';page.dataset.view=id;page.innerHTML=views[id];applyCardHover(page);applyButtonInvert(page);page.querySelectorAll('[data-open]').forEach(el=>el.addEventListener('click',event=>{if(el.tagName==='A')event.preventDefault();showSection(el.dataset.open)}));page.querySelectorAll('[data-copy]').forEach(el=>el.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(el.dataset.copy);toast(el.dataset.copy.includes('909')?'Phone number copied':'Email copied to clipboard')}catch{toast(el.dataset.copy)}}));if(id==='about'){const heading=page.querySelector('.about-home .hero h1');if(heading)initRisingInk(heading)}}
 function renderSection(id){const page=document.createElement('div');preparePage(page,id);pageSlider.replaceChildren(page);setActiveSection(id);activeSection=id;}
 document.querySelectorAll('.task-cta[data-open]').forEach(el=>el.addEventListener('click',event=>{event.preventDefault();showSection(el.dataset.open)}));
@@ -169,6 +177,54 @@ document.querySelectorAll('.shortcut-control[data-open]').forEach(shortcut=>shor
 document.querySelector('.home-control').addEventListener('click',returnToCover);
 document.querySelector('.os-close').addEventListener('click',returnToCover);
 document.addEventListener('click',e=>{const button=e.target.closest('[data-section]');if(button)showSection(button.dataset.section)});
+function setMobileMenuOpen(open,returnFocus=false){
+  if(open&&(!mobileNavBreakpoint.matches||!document.body.classList.contains('os-open')))return;
+  mobileMenuOpen=open;
+  document.body.classList.toggle('mobile-menu-open',open);
+  mobileMenuButton.setAttribute('aria-expanded',String(open));
+  mobileMenuButton.textContent=open?'CLOSE':'MENU';
+  mobileMenuDialog.classList.toggle('is-open',open);
+  mobileMenuScrim.classList.toggle('is-open',open);
+  mobileMenuScrim.setAttribute('aria-hidden',String(!open));
+  mobileMenuNav.classList.toggle('is-open',open);
+  mobileMenuNav.setAttribute('aria-hidden',String(!open));
+  mobileMenuNav.inert=!open;
+  document.querySelectorAll('.stack-taskbar,.stack-os,.desktop-shortcuts').forEach(el=>{el.inert=open});
+  if(open){
+    mobileMenuDialog.setAttribute('role','dialog');
+    mobileMenuDialog.setAttribute('aria-modal','true');
+    mobileMenuDialog.setAttribute('aria-label','Page menu');
+    (mobileMenuNav.querySelector('[aria-current="page"]')||mobileMenuNav.querySelector('a'))?.focus();
+  }else{
+    mobileMenuDialog.removeAttribute('role');
+    mobileMenuDialog.removeAttribute('aria-modal');
+    mobileMenuDialog.removeAttribute('aria-label');
+    if(returnFocus)mobileMenuButton.focus();
+  }
+}
+mobileMenuButton.addEventListener('click',()=>setMobileMenuOpen(!mobileMenuOpen));
+mobileMenuScrim.addEventListener('click',()=>setMobileMenuOpen(false,true));
+mobileMenuNav.addEventListener('click',event=>{
+  const link=event.target.closest('[data-menu-link]');
+  if(!link)return;
+  event.preventDefault();
+  event.stopPropagation();
+  const id=link.dataset.section;
+  setMobileMenuOpen(false,true);
+  showSection(id);
+});
+document.addEventListener('keydown',event=>{
+  if(!mobileMenuOpen)return;
+  if(event.key==='Escape'){event.preventDefault();setMobileMenuOpen(false,true);return;}
+  if(event.key!=='Tab')return;
+  const focusables=[...mobileMenuNav.querySelectorAll('a[href]:not([tabindex="-1"])'),mobileMenuButton];
+  const first=focusables[0],last=focusables[focusables.length-1];
+  if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+  else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
+});
+mobileNavBreakpoint.addEventListener('change',event=>{
+  if(!event.matches&&mobileMenuOpen){setMobileMenuOpen(false);document.querySelector('.tab.active')?.focus();}
+});
 function clock(){document.querySelector('#clock').textContent=new Intl.DateTimeFormat('en-PH',{timeZone:'Asia/Manila',hour:'2-digit',minute:'2-digit',second:'2-digit'}).format(new Date())}
 clock();setInterval(clock,1000);
 
