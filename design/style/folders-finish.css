@@ -8,4 +8,4 @@
 .folders .folder-skills:hover,.folders .folder-skills.active{background:var(--folder-tint)!important;border-color:var(--folder-color)!important;color:#7e2f79;box-shadow:3px 3px 0 var(--folder-color)!important;transform:translate(-1px,-1px)}
 .folders .folder-experience:hover,.folders .folder-experience.active{background:var(--folder-tint)!important;border-color:var(--folder-color)!important;color:#92265d;box-shadow:3px 3px 0 var(--folder-color)!important;transform:translate(-1px,-1px)}
 .folders .folder:hover .folder-icon,.folders .folder.active .folder-icon{transform:scale(1.12)}.folders .folder:focus-visible{outline:2px solid #f24f9a;outline-offset:2px}
-@media(max-width:640px){.folders,.memo{display:none}}
+

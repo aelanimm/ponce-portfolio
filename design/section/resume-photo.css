@@ -3,4 +3,4 @@
 .zine-intro-row img{display:block;width:100%;height:150px;object-fit:cover;border:1px solid #161522}
 .zine-intro-row figcaption{text-align:center;padding-top:5px;font:8px var(--mono);letter-spacing:.04em}
 .zine-intro-row .zine-intro{margin:0;text-align:left;font-size:14px;line-height:1.75}
-@media(max-width:650px){.zine-intro-row{grid-template-columns:95px minmax(0,1fr);gap:13px;margin:12px auto 20px}.zine-intro-row img{height:125px}.zine-intro-row .zine-intro{font-size:11px}}
+

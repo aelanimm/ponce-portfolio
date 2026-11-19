@@ -43,6 +43,7 @@ const sections = [
 
 const tabs = document.querySelector('.tabs');
 const sidebar = document.querySelector('.sidebar');
+const viewPanel = document.querySelector('.view');
 const pageSlider = document.querySelector('#page-slider');
 const coverScreen = document.querySelector('#cover-screen');
 const desktop = document.querySelector('.desktop');
@@ -64,6 +65,15 @@ tabs.innerHTML = sections.map(s => `<button class="tab" data-section="${s.id}">$
 mobileMenuNav.innerHTML = sections.map(s => `<a class="mobile-menu-link" href="#${s.id}" data-section="${s.id}" data-menu-link>${s.label}</a>`).join('');
 sidebar.innerHTML = `<div class="profile" role="button" tabindex="0" aria-label="Click to open full resume" aria-haspopup="dialog"><div class="avatar-wrap"><img class="avatar" src="${profileImage}" alt="Ayla Isabel A. Ponce"><i class="beacon"></i></div><div><span class="hybrid">★ IT STUDENT</span><h2>Ayla Isabel A. Ponce</h2><p>4th year BS Information Technology student</p></div><div class="pills"><span class="pill">📍 San Jose del Monte, Bulacan</span><span class="pill">Open to internship</span></div><span class="profile-resume-hint">📄 &nbsp; View Full Resume <small>(Click)</small></span></div><div class="folders"><h3>WORKSPACE / DIRECTORY</h3><button class="folder folder-projects" data-section="projects"><span class="folder-label"><i class="folder-icon"></i>/Projects/Production</span><small>6</small></button><button class="folder folder-skills" data-section="skills"><span class="folder-label"><i class="folder-icon"></i>/Skills/Tech_Arsenal</span><small>16</small></button><button class="folder folder-experience" data-section="experience"><span class="folder-label"><i class="folder-icon"></i>/Career/Timeline.log</span><small>2021-now</small></button></div><div class="memo"><b>✎ DESK NOTE</b>“Build useful systems, make them clear, and keep learning.”</div>`;
 sidebar.querySelectorAll('.folder-projects small, .folder-skills small').forEach(badge=>badge.remove());
+const sidebarFolders = sidebar.querySelector('.folders');
+const sidebarMemo = sidebar.querySelector('.memo');
+function placeSidebarExtras(){
+  const destination=mobileNavBreakpoint.matches?viewPanel:sidebar;
+  destination.append(sidebarFolders,sidebarMemo);
+  applyCardHover(destination);
+}
+placeSidebarExtras();
+mobileNavBreakpoint.addEventListener('change',placeSidebarExtras);
 applyButtonInvert(document);
 
 const resumeModal = document.querySelector('#resume-modal');
@@ -76,6 +86,15 @@ resumeDoodles.setAttribute('aria-hidden','true');
 resumeDoodles.innerHTML='<span class="zine-doodle-float doodle-star doodle-ink">✧</span><span class="zine-doodle-float doodle-star doodle-pink">★</span><span class="zine-doodle-float doodle-note doodle-pink">𝄞</span><span class="zine-doodle-float doodle-note doodle-ink">♫</span><span class="zine-doodle-float doodle-note doodle-pink">♪</span><pre class="zine-doodle-float doodle-cat doodle-ink"> /&#92;_/&#92;&#10;( o.o )&#10; &gt; ^ &lt;</pre><span class="zine-doodle-float doodle-star doodle-pink">✦</span><span class="zine-doodle-float doodle-heart">♡</span><pre class="zine-doodle-float doodle-cat doodle-pink"> /&#92;_/&#92;&#10;( o.o )&#10; &gt; ^ &lt;</pre><span class="zine-doodle-float doodle-star doodle-ink">✧</span>';
 resumeModal.querySelector('.zine-inner')?.prepend(resumeDoodles);
 const profileCard = sidebar.querySelector('.profile');
+const profileDetails = profileCard.children[1];
+profileDetails.classList.add('profile-details');
+const compactProfileSubtitle = document.createElement('p');
+compactProfileSubtitle.className='profile-compact-subtitle';
+compactProfileSubtitle.textContent='IT student · San Jose del Monte';
+profileDetails.append(compactProfileSubtitle);
+const profilePills = profileCard.querySelectorAll('.pills .pill');
+profilePills[0]?.classList.add('profile-location');
+profilePills[1]?.classList.add('profile-internship');
 const resumeClose = resumeModal.querySelector('.resume-close');
 function openResume(){resumeModal.hidden=false;document.body.classList.add('resume-open');resumeClose.focus();}
 function closeResume(){if(resumeModal.hidden)return;resumeModal.hidden=true;document.body.classList.remove('resume-open');profileCard.focus();}
@@ -96,7 +115,7 @@ contact: `<div class="section contact-view"><header class="contact-heading"><h2>
 };
 function meter(name,level){return `<div class="skill-row"><span>${name}</span><span class="mono">${level}%</span></div><div class="meter"><i style="width:${level}%"></i></div>`}
 function project(icon,title,description,stack){return `<a class="project card-hover" href="#contact" data-open="contact" aria-label="Ask Ayla about ${title}"><div class="project-art">${icon}</div><div class="project-body"><h3>${title}</h3><p>${description}</p><div class="tags"><span class="tag">${stack}</span></div><div class="project-actions"><span>PORTFOLIO ITEM</span></div></div></a>`}
-function setActiveSection(id){document.querySelectorAll('[data-section]').forEach(el=>el.classList.toggle('active',el.dataset.section===id));if(mobilePath)mobilePath.textContent=`~/${id}`;mobileMenuNav.querySelectorAll('[data-menu-link]').forEach(link=>{if(link.dataset.section===id)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current')});}
+function setActiveSection(id){document.querySelectorAll('[data-section]').forEach(el=>el.classList.toggle('active',el.dataset.section===id));profileCard.classList.toggle('profile--compact',id!=='about');if(mobilePath)mobilePath.textContent=`~/${id}`;mobileMenuNav.querySelectorAll('[data-menu-link]').forEach(link=>{if(link.dataset.section===id)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current')});}
 function preparePage(page,id){page.className='section-page';page.dataset.view=id;page.innerHTML=views[id];applyCardHover(page);applyButtonInvert(page);page.querySelectorAll('[data-open]').forEach(el=>el.addEventListener('click',event=>{if(el.tagName==='A')event.preventDefault();showSection(el.dataset.open)}));page.querySelectorAll('[data-copy]').forEach(el=>el.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(el.dataset.copy);toast(el.dataset.copy.includes('909')?'Phone number copied':'Email copied to clipboard')}catch{toast(el.dataset.copy)}}));if(id==='about'){const heading=page.querySelector('.about-home .hero h1');if(heading)initRisingInk(heading)}}
 function renderSection(id){const page=document.createElement('div');preparePage(page,id);pageSlider.replaceChildren(page);setActiveSection(id);activeSection=id;}
 document.querySelectorAll('.task-cta[data-open]').forEach(el=>el.addEventListener('click',event=>{event.preventDefault();showSection(el.dataset.open)}));
